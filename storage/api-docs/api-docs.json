@@ -1,0 +1,83 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "L5 OpenApi",
+        "description": "FS Project",
+        "contact": {
+            "email": "afrazafaq96@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000/api",
+            "description": "L5 Swagger OpenApi dynamic host server"
+        },
+        {
+            "url": "https://projects.dev/api/v1",
+            "description": "L5 Swagger OpenApi Server"
+        }
+    ],
+    "paths": {
+        "/user/login": {
+            "post": {
+                "tags": [
+                    "User Login"
+                ],
+                "summary": "Create user",
+                "description": "User can login through this api",
+                "operationId": "login",
+                "requestBody": {
+                    "description": "Login user object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserLogin"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "logined user object"
+                    },
+                    "400": {
+                        "description": "Username or password missing"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "UserLogin": {
+                "title": "User login model",
+                "description": "Model for handeling user login through API",
+                "properties": {
+                    "username": {
+                        "description": "Account username of the user",
+                        "type": "String",
+                        "example": "Farhad SINDI"
+                    },
+                    "password": {
+                        "description": "Account password of the user",
+                        "type": "String",
+                        "example": "123"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "security": [
+        []
+    ]
+}
