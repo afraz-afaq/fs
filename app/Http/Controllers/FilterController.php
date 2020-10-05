@@ -27,7 +27,7 @@ class FilterController extends Controller
     /**
      * @OA\Get(
      *     path="/list/{id}",
-     *     tags={"table filter"},
+     *     tags={"Filter Tables"},
      *     summary="Returns the db table",
      *     description="COUNTRY = 1, GOVERNER = 2, CITY = 3, MRDEBT = 4, MRTYPE = 5, MERCHANT = 6, PRODUCT = 7, PCLASS = 8, MANUFACTURER = 9, BOXNAME = 10, SCIENTIFICN = 11",
      *     operationId="getList",
@@ -46,7 +46,7 @@ class FilterController extends Controller
      *       @OA\JsonContent(
      *       @OA\Property(property="status", type="string", example="true"),
      *       @OA\Property(property="statusCode", type="integer", example="200"),
-     *       @OA\Property(property="data", type="string", example="{'data' : {'id': 1, 'country': 'AB'}, {'id': 2, 'country': 'CD'}, 'message':'List retrieved'}")
+     *       @OA\Property(property="data", type="string", example="{'data' : [{'id': 1, 'country': 'AB'}, {'id': 2, 'country': 'CD'}], 'message':'List retrieved'}")
      *        )
      *     ),
      *     @OA\Response(

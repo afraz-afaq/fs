@@ -26,7 +26,7 @@
         "/list/{id}": {
             "get": {
                 "tags": [
-                    "table filter"
+                    "Filter Tables"
                 ],
                 "summary": "Returns the db table",
                 "description": "COUNTRY = 1, GOVERNER = 2, CITY = 3, MRDEBT = 4, MRTYPE = 5, MERCHANT = 6, PRODUCT = 7, PCLASS = 8, MANUFACTURER = 9, BOXNAME = 10, SCIENTIFICN = 11",
@@ -58,7 +58,7 @@
                                         },
                                         "data": {
                                             "type": "string",
-                                            "example": "{'data' : {'id': 1, 'country': 'AB'}, {'id': 2, 'country': 'CD'}, 'message':'List retrieved'}"
+                                            "example": "{'data' : [{'id': 1, 'country': 'AB'}, {'id': 2, 'country': 'CD'}], 'message':'List retrieved'}"
                                         }
                                     },
                                     "type": "object"
@@ -68,6 +68,173 @@
                     },
                     "404": {
                         "description": "No such table exists"
+                    }
+                }
+            }
+        },
+        "/mrdebt": {
+            "get": {
+                "tags": [
+                    "Mrdebt Table Customers Account List"
+                ],
+                "summary": "Returns the mrdebt customer accounts list",
+                "description": "Return the list of customers from mrdebt table.",
+                "operationId": "index",
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "address",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order_by",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sort_by",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "All Mrdebt Customers Accounts",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "true"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "{'data' : [Mrdebt Object, Mrdebt Object], 'message':'All Mrdebt Customers Accounts'}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/mrtype": {
+            "get": {
+                "tags": [
+                    "Mrtype Table List"
+                ],
+                "summary": "Returns the types of mrdebt list",
+                "description": "Return the list of mrdebt types from mrtype table.",
+                "operationId": "index",
+                "responses": {
+                    "200": {
+                        "description": "All Mrtypes",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "true"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "{'data' : [Mrtype Object, Mrtype Object], 'message':'All Mrtypes'}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/product": {
+            "get": {
+                "tags": [
+                    "Product Table List"
+                ],
+                "summary": "Returns the products",
+                "description": "Return the list of products from product table.",
+                "operationId": "index",
+                "responses": {
+                    "200": {
+                        "description": "All Products",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "true"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "{'data' : [Whouse Object, Whouse Object], 'message':'All Warehouse Products'}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/product/save": {
+            "post": {
+                "tags": [
+                    "Product save"
+                ],
+                "summary": "Create product",
+                "description": "User can create product through this api",
+                "operationId": "save",
+                "requestBody": {
+                    "description": "save product object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SaveProduct"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "validation fails"
+                    },
+                    "200": {
+                        "description": "Product Saved Successfully."
                     }
                 }
             }
@@ -133,6 +300,86 @@
                 }
             }
         },
+        "/whouse": {
+            "get": {
+                "tags": [
+                    "Whouse Table Product List"
+                ],
+                "summary": "Returns the whouse products",
+                "description": "Return the list of products from whouse table.",
+                "operationId": "index",
+                "parameters": [
+                    {
+                        "name": "pclass",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "pname",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "manufacturer",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "scientificn",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order_by",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sort_by",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "All Warehouse Products",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "true"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "{'data' : [Product Object, Product Object], 'message':'All Products'}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/whouse/{id}": {
             "get": {
                 "tags": [
@@ -185,6 +432,43 @@
     },
     "components": {
         "schemas": {
+            "SaveProduct": {
+                "title": "Save Product model",
+                "description": "Model for handeling product save through API",
+                "properties": {
+                    "pname": {
+                        "description": "products name",
+                        "type": "String",
+                        "example": "Cocomo"
+                    },
+                    "pclass": {
+                        "description": "products class",
+                        "type": "String",
+                        "example": "abc"
+                    },
+                    "pbarcode": {
+                        "description": "products barcode",
+                        "type": "String",
+                        "example": "2342343242"
+                    },
+                    "saleprice": {
+                        "description": "products sale price",
+                        "type": "string",
+                        "example": "121"
+                    },
+                    "buyprice": {
+                        "description": "products buy price",
+                        "type": "string",
+                        "example": "100"
+                    },
+                    "active": {
+                        "description": "is product active",
+                        "type": "string",
+                        "example": "1"
+                    }
+                },
+                "type": "object"
+            },
             "UserLogin": {
                 "title": "User login model",
                 "description": "Model for handeling user login through API",

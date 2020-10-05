@@ -7,6 +7,55 @@ use Illuminate\Http\Request;
 
 class MrdebtController extends Controller
 {
+
+    /**
+     * @OA\Get(
+     *     path="/mrdebt",
+     *     tags={"Mrdebt Table Customers Account List"},
+     *     summary="Returns the mrdebt customer accounts list",
+     *     description="Return the list of customers from mrdebt table.",
+     *     operationId="index",
+     *     @OA\Parameter(
+     *     name="type",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     *    @OA\Parameter(
+     *     name="address",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     *    @OA\Parameter(
+     *     name="order_by",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     *     @OA\Parameter(
+     *     name="sort_by",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     *     @OA\Response(
+     *         response=200,
+     *          description="All Mrdebt Customers Accounts",
+     *       @OA\JsonContent(
+     *       @OA\Property(property="status", type="string", example="true"),
+     *       @OA\Property(property="statusCode", type="integer", example="200"),
+     *       @OA\Property(property="data", type="string", example="{'data' : [Mrdebt Object, Mrdebt Object], 'message':'All Mrdebt Customers Accounts'}")
+     *        )
+     *     ),
+     * )
+     */
+
+
     public function index(){
 
         $debts_list = Mrdebt::select(['mrname','mrdebt','mrtype','governer','city']);
