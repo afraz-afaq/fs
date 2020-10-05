@@ -28,16 +28,16 @@ use Illuminate\Support\Facades\Validator;
  *  )
  *
  *  @OA\Server(
-*      url="https://projects.dev/api/v1",
+ *      url="https://projects.dev/api/v1",
  *      description="L5 Swagger OpenApi Server"
  * )
  */
 
 class UserController extends Controller
 {
-   
 
-/**
+
+    /**
      *@OA\Schema(
      *  schema="UserLogin",
      *  title="User login model",
@@ -58,7 +58,7 @@ class UserController extends Controller
      *)
      */
 
-    
+
     /**
      * @OA\Post(
      *     path="/user/login",
@@ -91,33 +91,166 @@ class UserController extends Controller
             'username' => 'required',
             'password' => 'required'
         ]);
-    
+
         if ($validator->fails()) {
             return response()->json([
                 'status' => false,
                 'statusCode' => 400,
-                'data' => $validator->messages(),
+                'data' => ['data' => null, 'message' => $validator->messages()],
             ], 400);
         }
         $requestData = $request->all();
         $user = User::where('uname', $requestData['username'])
             ->where('upass', $requestData['password'])
-            ->where('active',1)
-            ->where('ios',1)
-            ->where('cislocked',0)
-            ->where('cisdelete',0)
+            ->where('active', 1)
+            ->where('cislocked', 0)
+            ->where('cisdelete', 0)
             ->first();
         if ($user)
             return response()->json([
                 'status' => true,
                 'statusCode' => 200,
-                'data' => $user,
+                'data' => ['data' => $user, 'message' => 'User logined successfully.'],
             ], 200);
         else
-        return response()->json([
-            'status' => false,
-            'statusCode' => 404,
-            'data' => "User does not exists",
-        ], 404);
+            return response()->json([
+                'status' => false,
+                'statusCode' => 404,
+                'data' => ['data' => $user, 'message' => "User does not exists"],
+            ], 404);
+    }
+
+
+
+    /**
+     *@OA\Schema(
+     *  schema="UserSignup",
+     *  title="User signup model",
+     *  description="Model for handeling user signup through API",
+     *  @OA\Property(
+     *     property="username",
+     *     type="String",
+     *     description="Account username of the user",
+     *      example="Farhad SINDI"
+     *  ),
+     * 
+     *  @OA\Property(
+     *     property="password",
+     *     type="String",
+     *     description="Account password of the user",
+     *      example="123"
+     *  ),
+     * 
+     *   @OA\Property(
+     *     property="fullname",
+     *     type="String",
+     *     description="Account fullname of the user",
+     *      example="abc xyz"
+     *  ),
+     * 
+     *  @OA\Property(
+     *     property="governer",
+     *     type="string",
+     *     description="Chosen governer",
+     *      example="abc"
+     *  ),
+     * 
+     *  @OA\Property(
+     *     property="company_name",
+     *     type="string",
+     *     description="Chosen company",
+     *      example="abc"
+     *  ),
+     * 
+     *    @OA\Property(
+     *     property="city",
+     *     type="string",
+     *     description="Chosen city",
+     *      example="xyz"
+     *  ),
+     * 
+     *   @OA\Property(
+     *     property="address",
+     *     type="String",
+     *     description="Account address of the user",
+     *      example="abc 12 xyz"
+     *  ),
+     * 
+     *   @OA\Property(
+     *     property="mobile",
+     *     type="String",
+     *     description="Account mobile of the user",
+     *      example="0987654322"
+     *  ),
+     *)
+     */
+
+
+    /**
+     * @OA\Post(
+     *     path="/user/signup",
+     *     tags={"User Signup"},
+     *     summary="Create user",
+     *     description="User can signup through this api",
+     *     operationId="signup",
+     *    @OA\RequestBody(
+     *         description="Signup user object",
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/UserSignup")
+     *     ),
+     *     @OA\Response(
+     *         response="400",
+     *         description="validation fails"
+     *     ),
+     *  @OA\Response(
+     *         response="200",
+     *         description="signup user object"
+     *     ),
+     * )
+     */
+
+    public function signup(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|unique:App\Models\User,uname',
+            'password' => 'required|min:6',
+            'fullname' => 'required',
+            'governer' => 'required',
+            'company_name' => 'required',
+            'city' => 'required',
+            'address' => 'required',
+            'mobile' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'statusCode' => 400,
+                'data' => ['data' => null, 'message' => $validator->messages()],
+            ], 400);
+        }
+
+        $validatedData =  $request->all();
+        $user = new User();
+
+        $user->uname = $validatedData['username'];
+        $user->upass = $validatedData['password'];
+        $user->fullname = $validatedData['fullname'];
+        $user->governer = $validatedData['governer'];
+        $user->companyname = $validatedData['company_name'];
+        $user->city = $validatedData['city'];
+        $user->address = $validatedData['address'];
+        $user->mobile1 = $validatedData['mobile'];
+        $user->timestamps = false;
+        $user->cislocked = 0;
+        $user->cisdelete = 0;
+        $user->active = 1;
+        if ($user->save()) {
+            return response()->json([
+                'status' => true,
+                'statusCode' => 200,
+                'data' => ['data' => User::find($user->id), 'message' => 'User Saved Successfully.'],
+            ], 200);
+        }
     }
 }

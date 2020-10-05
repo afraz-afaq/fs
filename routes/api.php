@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\FilterController;
+use App\Http\Controllers\MrdebtController;
+use App\Http\Controllers\MrtypeController;
+use App\Http\Controllers\WhouseController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -58,3 +62,9 @@ Route::POST('user/login-inline',function(Request $request)    {
 });
 
 Route::POST('user/login', [UserController::class, 'login']);
+Route::GET('list/{id}',[FilterController::class,'getList']);
+Route::POST('user/signup', [UserController::class, 'signup']);
+
+Route::GET('whouse/{id}',[WhouseController::class, 'view']);
+Route::GET('mrtype',[MrtypeController::class, 'index']);
+Route::GET('mrdebt',[MrdebtController::class, 'index']);

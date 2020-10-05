@@ -23,6 +23,55 @@
         }
     ],
     "paths": {
+        "/list/{id}": {
+            "get": {
+                "tags": [
+                    "table filter"
+                ],
+                "summary": "Returns the db table",
+                "description": "COUNTRY = 1, GOVERNER = 2, CITY = 3, MRDEBT = 4, MRTYPE = 5, MERCHANT = 6, PRODUCT = 7, PCLASS = 8, MANUFACTURER = 9, BOXNAME = 10, SCIENTIFICN = 11",
+                "operationId": "getList",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Table content list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "true"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "{'data' : {'id': 1, 'country': 'AB'}, {'id': 2, 'country': 'CD'}, 'message':'List retrieved'}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No such table exists"
+                    }
+                }
+            }
+        },
         "/user/login": {
             "post": {
                 "tags": [
@@ -54,6 +103,84 @@
                     }
                 }
             }
+        },
+        "/user/signup": {
+            "post": {
+                "tags": [
+                    "User Signup"
+                ],
+                "summary": "Create user",
+                "description": "User can signup through this api",
+                "operationId": "signup",
+                "requestBody": {
+                    "description": "Signup user object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserSignup"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "validation fails"
+                    },
+                    "200": {
+                        "description": "signup user object"
+                    }
+                }
+            }
+        },
+        "/whouse/{id}": {
+            "get": {
+                "tags": [
+                    "whouse"
+                ],
+                "summary": "Returns the whouse product through barcode",
+                "description": "Takes barcode in the query path and returns the relevant whouse product.",
+                "operationId": "view",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Table content list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "true"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "{'data' : {whouse Object}, 'message':'Warehouse Product retrieved'}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No such record exists"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -71,6 +198,53 @@
                         "description": "Account password of the user",
                         "type": "String",
                         "example": "123"
+                    }
+                },
+                "type": "object"
+            },
+            "UserSignup": {
+                "title": "User signup model",
+                "description": "Model for handeling user signup through API",
+                "properties": {
+                    "username": {
+                        "description": "Account username of the user",
+                        "type": "String",
+                        "example": "Farhad SINDI"
+                    },
+                    "password": {
+                        "description": "Account password of the user",
+                        "type": "String",
+                        "example": "123"
+                    },
+                    "fullname": {
+                        "description": "Account fullname of the user",
+                        "type": "String",
+                        "example": "abc xyz"
+                    },
+                    "governer": {
+                        "description": "Chosen governer",
+                        "type": "string",
+                        "example": "abc"
+                    },
+                    "company_name": {
+                        "description": "Chosen company",
+                        "type": "string",
+                        "example": "abc"
+                    },
+                    "city": {
+                        "description": "Chosen city",
+                        "type": "string",
+                        "example": "xyz"
+                    },
+                    "address": {
+                        "description": "Account address of the user",
+                        "type": "String",
+                        "example": "abc 12 xyz"
+                    },
+                    "mobile": {
+                        "description": "Account mobile of the user",
+                        "type": "String",
+                        "example": "0987654322"
                     }
                 },
                 "type": "object"
