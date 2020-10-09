@@ -177,4 +177,112 @@ class ProductController extends Controller
             ], 200);
         }
     }
+
+
+        /**
+     * @OA\Get(
+     *     path="/product/{id}",
+     *     tags={"Product"},
+     *     summary="Returns the product through barcode",
+     *     description="Takes barcode in the query path and returns the relevant product.",
+     *     operationId="view",
+     * 
+     *     @OA\Parameter(
+     *     name="id",
+     *     in="path",
+     *     required=true,
+     *     @OA\Schema(
+     *       type="integer"
+     *     )
+     *   ),
+     *     @OA\Response(
+     *         response=200,
+     *          description="Table content list",
+     *       @OA\JsonContent(
+     *       @OA\Property(property="status", type="string", example="true"),
+     *       @OA\Property(property="statusCode", type="integer", example="200"),
+     *       @OA\Property(property="data", type="string", example="{'data' : {product Object}, 'message':'Product retrieved'}")
+     *        )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *          description="No such record exists",
+     *     ),
+     * )
+     */
+
+    public function view($id)
+    {
+
+        $product = Product::where('pbarcode', $id)->first();
+
+        if ($product) {
+            return response()->json([
+                'status' => true,
+                'statusCode' => 200,
+                'data' => ['data' => $product, 'message' => "Product retrieved."]
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => false,
+                'statusCode' => 404,
+                'data' => ['data' => null, 'message' => "No product exists."]
+            ], 404);
+        }
+    }
+
+
+
+    /**
+     * @OA\Get(
+     *     path="/product/{id}/status/{status}",
+     *     tags={"Product Status Change"},
+     *     summary="Changes the status of product through barcode",
+     *     description="Takes barcode in the query path and Changes the status of product.",
+     *     operationId="view",
+     * 
+     *     @OA\Parameter(
+     *     name="id",
+     *     in="path",
+     *     required=true,
+     *     @OA\Schema(
+     *       type="integer"
+     *     )
+     *   ),
+     *   @OA\Parameter(
+     *     name="status",
+     *     in="path",
+     *     required=true,
+     *     @OA\Schema(
+     *       type="integer"
+     *     )
+     *   ),
+     *     @OA\Response(
+     *         response=200,
+     *          description="Table content list",
+     *       @OA\JsonContent(
+     *       @OA\Property(property="status", type="string", example="true"),
+     *       @OA\Property(property="statusCode", type="integer", example="200"),
+     *       @OA\Property(property="data", type="string", example="{'data' : {product Object}, 'message':'Product Status Changed Successfully.'}")
+     *        )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *          description="No such record exists",
+     *     ),
+     * )
+     */
+
+    public function changeStatus($id,$status){
+        $product = Product::where('pbarcode', $id)->first();
+        $product->timestamps = false;
+        $product->active = $status;
+        if ($product->save()) {
+            return response()->json([
+                'status' => true,
+                'statusCode' => 200,
+                'data' => ['data' => $product, 'message' => 'Product Status Changed Successfully.'],
+            ], 200);
+        }
+    }
 }

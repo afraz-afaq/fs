@@ -2,10 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Boxname;
 use App\Models\Governer;
 use App\Models\City;
 use App\Models\Country;
+use App\Models\Manufacturer;
 use App\Models\Merchant;
+use App\Models\Mrdebt;
+use App\Models\Mrtype;
+use App\Models\Pclass;
+use App\Models\Product;
+use App\Models\Scientificn;
 use Illuminate\Http\Request;
 
 class FilterController extends Controller
@@ -74,13 +81,41 @@ class FilterController extends Controller
                 $table = City::class;
                 $field = "city";
                 break;
+            case self::MRDEBT:
+                $table = Mrdebt::class;
+                $field = "mrname";
+                break;
             case self::MERCHANT:
                 $table = Merchant::class;
                 $field = "mrname";
                 break;
-            // default:
-            //     $table = Governer::class;
-            //     $field = "governer";
+            case self::MRTYPE:
+                $table = Mrtype::class;
+                $field = "mrtype";
+                break;
+            case self::PRODUCT:
+                $table = Product::class;
+                $field = "pname";
+                break;
+            case self::PCLASS:
+                $table = Pclass::class;
+                $field = "pclass";
+                break;
+            case self::MANUFACTURER:
+                $table = Manufacturer::class;
+                $field = "manufacturer";
+                break;
+            case self::BOXNAME:
+                $table = Boxname::class;
+                $field = "boxname";
+                break;
+            case self::SCIENTIFICN:
+                $table = Scientificn::class;
+                $field = "scientificn";
+                break;
+                // default:
+                //     $table = Governer::class;
+                //     $field = "governer";
         }
         if ($table != "") {
 
@@ -89,10 +124,9 @@ class FilterController extends Controller
             return response()->json([
                 'status' => true,
                 'statusCode' => 200,
-                'data' => ['data' => $list,'message' => 'List retrieved'],
+                'data' => ['data' => $list, 'message' => 'List retrieved'],
             ], 200);
-        }
-        else
+        } else
             return response()->json([
                 'status' => false,
                 'statusCode' => 404,

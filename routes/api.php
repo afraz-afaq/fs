@@ -72,6 +72,8 @@ Route::GET('whouse/{id}',[WhouseController::class, 'view']);
 
 Route::GET('product',[ProductController::class, 'index']);
 Route::POST('product/save',[ProductController::class, 'save']);
+Route::GET('product/{id}',[ProductController::class, 'view']);
+Route::GET('product/{id}/status/{status}',[ProductController::class, 'changeStatus']);
 
 Route::GET('mrtype',[MrtypeController::class, 'index']);
 Route::GET('mrdebt',[MrdebtController::class, 'index']);

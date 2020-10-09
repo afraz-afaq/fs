@@ -72,7 +72,7 @@ class WhouseController extends Controller
     public function index()
     {
 
-        $whouse_list = Whouse::select(['pbarcode', 'pname', 'pclass', 'cwhouse', 'saleprice']);
+        $whouse_list = Whouse::select(['pbarcode', 'pname', 'pclass', 'cwhouse', 'saleprice','manufacturer','scientificn']);
 
         if (isset($_GET['pclass']))
             $whouse_list = $whouse_list->where('pclass', $_GET['pclass']);
