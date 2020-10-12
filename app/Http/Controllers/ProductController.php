@@ -34,7 +34,7 @@ class ProductController extends Controller
     public function index()
     {
 
-        $product_list = Product::select(['pbarcode', 'pname', 'pclass', 'saleprice', 'buyprice','active']);
+        $product_list = Product::select(['pbarcode', 'pname', 'pclass', 'saleprice', 'buyprice','manufacturer','scientificn','active']);
 
         if (isset($_GET['pclass']))
             $product_list = $product_list->where('pclass', $_GET['pclass']);
