@@ -728,6 +728,58 @@
                 }
             }
         },
+        "/user/save-token": {
+            "get": {
+                "tags": [
+                    "User Save Token"
+                ],
+                "summary": "Save user token",
+                "description": "Saves user firebase token",
+                "operationId": "savedeviceToken",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "All Invoices",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "true"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "{'data' : [flag : 1], 'message':'Token Saved'}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/whouse": {
             "get": {
                 "tags": [

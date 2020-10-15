@@ -253,4 +253,54 @@ class UserController extends Controller
             ], 200);
         }
     }
+
+
+    /**
+     * @OA\Get(
+     *     path="/user/save-token",
+     *     tags={"User Save Token"},
+     *     summary="Save user token",
+     *     description="Saves user firebase token",
+     *     operationId="savedeviceToken",
+     *     @OA\Parameter(
+     *     name="token",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     *  @OA\Parameter(
+     *     name="user_id",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+  
+     *     @OA\Response(
+     *         response=200,
+     *          description="All Invoices",
+     *       @OA\JsonContent(
+     *       @OA\Property(property="status", type="string", example="true"),
+     *       @OA\Property(property="statusCode", type="integer", example="200"),
+     *       @OA\Property(property="data", type="string", example="{'data' : [flag : 1], 'message':'Token Saved'}")
+     *        )
+     *     ),
+     * )
+     */
+
+    public function savedeviceToken(){
+        $token = $_GET['token'];
+        $userid = $_GET['user_id'];
+
+        $user = User::findOrFail($userid);
+        $user->firebase_token = $token;
+        $user->timestamps = false;
+        $flag = $user->save();
+        return response()->json([
+            'status' => true,
+            'statusCode' => 200,
+            'data' => ['data' => ['flag' => $flag], 'message' => "Token Saved."]
+        ], 200);
+    }
 }
