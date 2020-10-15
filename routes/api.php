@@ -83,3 +83,6 @@ Route::GET('invoice',[InvoiceController::class, 'index']);
 Route::GET('invoice/view',[InvoiceController::class, 'view']);
 Route::GET('invoice/product-delete',[InvoiceController::class, 'deleteProduct']);
 Route::POST('invoice/update',[InvoiceController::class, 'updateProduct']);
+Route::GET('invoice/get-itemno',[InvoiceController::class, 'getInvoiceNumber']);
+Route::POST('invoice/save',[InvoiceController::class, 'saveInvoice']);
+Route::POST('invoice/save-product',[InvoiceController::class, 'saveInvoiceProduct']);

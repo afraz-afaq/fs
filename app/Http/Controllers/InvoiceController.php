@@ -16,6 +16,13 @@ class InvoiceController extends Controller
      *     summary="Returns the invoices",
      *     description="Return the list of Invoices.",
      *     operationId="index",
+     *   @OA\Parameter(
+     *     name="ie",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
      *    @OA\Parameter(
      *     name="customer_name",
      *     in="query",
@@ -59,12 +66,12 @@ class InvoiceController extends Controller
 
     public function index()
     {
-
+        $ie = isset($_GET['ie']) ? $_GET['ie'] : 'sale';
         $query = "SELECT TOP (100) PERCENT itemno, mrname, date1, SUM(total) AS total, isdelete 
         FROM (SELECT itemno, mrname, date1, SUM(carton) * SUM(pprice) - (SUM(arrivel) + SUM(discount)) 
         AS total, isdelete 
         FROM ie
-        where ie = 'sale'
+        where ie = $ie
         GROUP BY itemno, mrname, date1, ie2, isdelete HAVING (ie2 IS NULL) OR (ie2 = N'') OR (ie2 = N'voucher')) AS derivedtbl_1";
 
         if (isset($_GET['customer_name']) && isset($_GET['date']))
@@ -299,6 +306,40 @@ class InvoiceController extends Controller
         ], 200);
     }
 
+
+
+        /**
+     * @OA\Get(
+     *     path="/invoice/get-itemno",
+     *     tags={"Invoice Get Item No"},
+     *     summary="Returns the itemno",
+     *     description="Return the last itemno to make new invoice.",
+     *     operationId="getInvoiceNumber",
+     *    @OA\Parameter(
+     *     name="ie",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     *    @OA\Parameter(
+     *     name="username",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     *     @OA\Response(
+     *         response=200,
+     *          description="Item No.",
+     *       @OA\JsonContent(
+     *       @OA\Property(property="status", type="string", example="true"),
+     *       @OA\Property(property="statusCode", type="integer", example="200"),
+     *       @OA\Property(property="data", type="string", example="{'data' : [itemno : 12], 'message':'Item No.'}")
+     *        )
+     *     ),
+     * )
+     */
     public function getInvoiceNumber()
     {
 
@@ -333,5 +374,231 @@ class InvoiceController extends Controller
                 $table = "returnsaleitems";
                 break;
         }
+
+        DB::insert("INSERT INTO $table (username) VALUES ('$username' )");
+        $record = DB::select("select top 1 itemno from $table order by itemno DESC");
+
+
+        return response()->json([
+            'status' => true,
+            'statusCode' => 200,
+            'data' => ['data' => ['itemno' => $record[0]->itemno], 'message' => "Item No.."]
+        ], 200);
     }
+
+
+
+
+    /**
+     *@OA\Schema(
+     *  schema="InvoiceSave",
+     *  title="Invoice Save model",
+     *  description="Model for saving Invoice",
+     *  @OA\Property(
+     *     property="ie",
+     *     type="String",
+     *     description="ie",
+     *      example="sale"
+     *  ),
+     *      *  @OA\Property(
+     *     property="ie2",
+     *     type="String",
+     *     description="ie2",
+     *      example="sale"
+     *  ),
+     * 
+     *  @OA\Property(
+     *     property="mrname",
+     *     type="String",
+     *     description="Customer name",
+     *      example="Foo"
+     *  ),
+     * 
+     *   @OA\Property(
+     *     property="username",
+     *     type="String",
+     *     description="Arrivel",
+     *      example="qwqw"
+     *  ),
+     * 
+     *  @OA\Property(
+     *     property="itemno",
+     *     type="string",
+     *     description="item no",
+     *      example="121"
+     *  ),
+     * 
+     *  @OA\Property(
+     *     property="date",
+     *     type="string",
+     *     description="date of invoice",
+     *      example="2020-09-09"
+     *  ),
+     * 
+     *)
+     */
+
+
+    /**
+     * @OA\Post(
+     *     path="/invoice/save",
+     *     tags={"Invoice Save"},
+     *     summary="Invoice Save",
+     *     description="Invoice Save",
+     *     operationId="saveInvoice",
+     *    @OA\RequestBody(
+     *         description="save invoice object",
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/InvoiceSave")
+     *     ),
+     *     @OA\Response(
+     *         response="400",
+     *         description="validation fails"
+     *     ),
+     *  @OA\Response(
+     *         response="200",
+     *         description="Invoice Saved."
+     *     ),
+     * )
+     */
+
+    public function saveInvoice(Request $request){
+        
+        $data = $request->all();
+        $ie = $data ['ie'];
+        $ie2 = isset($data ['ie2']) ? $data ['ie2'] : '';
+        $date = $data ['date'];
+        $mrname = $data['mrname'];
+        $username = $data ['username'];
+        $itemno = $data ['itemno'];
+
+        $flag = DB::insert("INSERT INTO dbo.ie (ie,ie2,itemno,mrname,date1,username) VALUES (?, ?, ?, ?, ?, ?)", [$ie, $ie2, $itemno, $mrname, $date, $username]);
+        return response()->json([
+            'status' => true,
+            'statusCode' => 200,
+            'data' => ['data' => ['flag' => $flag], 'message' => "Invoice Saved."]
+        ], 200);
+    }
+
+
+
+
+
+    /**
+     *@OA\Schema(
+     *  schema="InvoiceProductSave",
+     *  title="Invoice Product Save model",
+     *  description="Model for saving Product Invoice",
+     *  @OA\Property(
+     *     property="ie",
+     *     type="String",
+     *     description="ie",
+     *      example="sale"
+     *  ),
+     *      *  @OA\Property(
+     *     property="pname",
+     *     type="String",
+     *     description="pname",
+     *      example="Flower"
+     *  ),
+     * 
+     *  @OA\Property(
+     *     property="mrname",
+     *     type="String",
+     *     description="Customer name",
+     *      example="Foo"
+     *  ),
+     * 
+     *   @OA\Property(
+     *     property="username",
+     *     type="String",
+     *     description="Arrivel",
+     *      example="qwqw"
+     *  ),
+     * 
+     *  @OA\Property(
+     *     property="itemno",
+     *     type="string",
+     *     description="item no",
+     *      example="121"
+     *  ),
+     * 
+     *  @OA\Property(
+     *     property="date",
+     *     type="string",
+     *     description="date of invoice",
+     *      example="2020-09-09"
+     *  ),
+     *   @OA\Property(
+     *     property="pprice",
+     *     type="string",
+     *     description="pprice",
+     *      example="20"
+     *  ),
+     *    @OA\Property(
+     *     property="bonis",
+     *     type="string",
+     *     description="bonis",
+     *      example="2"
+     *  ),
+     *    @OA\Property(
+     *     property="carton",
+     *     type="string",
+     *     description="carton",
+     *      example="2"
+     *  ),
+     * 
+     *)
+     */
+
+
+    /**
+     * @OA\Post(
+     *     path="/invoice/save-product",
+     *     tags={"Invoice Product Save"},
+     *     summary="Invoice Product Save",
+     *     description="Invoice Product Save",
+     *     operationId="saveInvoiceProduct",
+     *    @OA\RequestBody(
+     *         description="save invoice Product object",
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/InvoiceProductSave")
+     *     ),
+     *     @OA\Response(
+     *         response="400",
+     *         description="validation fails"
+     *     ),
+     *  @OA\Response(
+     *         response="200",
+     *         description="Invoice Product Saved."
+     *     ),
+     * )
+     */
+
+
+    public function saveInvoiceProduct(Request $request){
+        
+        $data = $request->all();
+
+        $ie = $data['ie'];
+        $pname = $data['pname'];
+        $date = $data['date'];
+        $mrname = $data['mrname'];
+        $username = $data['username'];
+        $itemno = $data['itemno'];
+        $bonis = isset($data['bonis']) ? $data['bonis'] : null;
+        $pprice = isset($data['pprice']) ? $data['pprice'] : null;
+        $carton = isset($data['carton']) ? $data['carton'] : null;
+
+
+        $flag = DB::insert("INSERT INTO dbo.ie (ie, itemno, mrname, date1, pname, carton, pprice, bonis, username)  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+        [$ie, $itemno, $mrname, $date, $pname, $carton, $pprice, $bonis, $username]);
+        return response()->json([
+            'status' => true,
+            'statusCode' => 200,
+            'data' => ['data' => ['flag' => $flag], 'message' => "Invoice Product Saved."]
+        ], 200);
+    }
+
+
 }

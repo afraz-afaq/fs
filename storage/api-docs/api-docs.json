@@ -82,6 +82,13 @@
                 "operationId": "index",
                 "parameters": [
                     {
+                        "name": "ie",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "name": "customer_name",
                         "in": "query",
                         "schema": {
@@ -273,6 +280,116 @@
                     },
                     "200": {
                         "description": "Invoice Updated."
+                    }
+                }
+            }
+        },
+        "/invoice/get-itemno": {
+            "get": {
+                "tags": [
+                    "Invoice Get Item No"
+                ],
+                "summary": "Returns the itemno",
+                "description": "Return the last itemno to make new invoice.",
+                "operationId": "getInvoiceNumber",
+                "parameters": [
+                    {
+                        "name": "ie",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "username",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Item No.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "true"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "{'data' : [itemno : 12], 'message':'Item No.'}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/invoice/save": {
+            "post": {
+                "tags": [
+                    "Invoice Save"
+                ],
+                "summary": "Invoice Save",
+                "description": "Invoice Save",
+                "operationId": "saveInvoice",
+                "requestBody": {
+                    "description": "save invoice object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/InvoiceSave"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "validation fails"
+                    },
+                    "200": {
+                        "description": "Invoice Saved."
+                    }
+                }
+            }
+        },
+        "/invoice/save-product": {
+            "post": {
+                "tags": [
+                    "Invoice Product Save"
+                ],
+                "summary": "Invoice Product Save",
+                "description": "Invoice Product Save",
+                "operationId": "saveInvoiceProduct",
+                "requestBody": {
+                    "description": "save invoice Product object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/InvoiceProductSave"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "validation fails"
+                    },
+                    "200": {
+                        "description": "Invoice Product Saved."
                     }
                 }
             }
@@ -781,6 +898,95 @@
                         "description": "Comment",
                         "type": "string",
                         "example": "YOYO"
+                    }
+                },
+                "type": "object"
+            },
+            "InvoiceSave": {
+                "title": "Invoice Save model",
+                "description": "Model for saving Invoice",
+                "properties": {
+                    "ie": {
+                        "description": "ie",
+                        "type": "String",
+                        "example": "sale"
+                    },
+                    "ie2": {
+                        "description": "ie2",
+                        "type": "String",
+                        "example": "sale"
+                    },
+                    "mrname": {
+                        "description": "Customer name",
+                        "type": "String",
+                        "example": "Foo"
+                    },
+                    "username": {
+                        "description": "Arrivel",
+                        "type": "String",
+                        "example": "qwqw"
+                    },
+                    "itemno": {
+                        "description": "item no",
+                        "type": "string",
+                        "example": "121"
+                    },
+                    "date": {
+                        "description": "date of invoice",
+                        "type": "string",
+                        "example": "2020-09-09"
+                    }
+                },
+                "type": "object"
+            },
+            "InvoiceProductSave": {
+                "title": "Invoice Product Save model",
+                "description": "Model for saving Product Invoice",
+                "properties": {
+                    "ie": {
+                        "description": "ie",
+                        "type": "String",
+                        "example": "sale"
+                    },
+                    "pname": {
+                        "description": "pname",
+                        "type": "String",
+                        "example": "Flower"
+                    },
+                    "mrname": {
+                        "description": "Customer name",
+                        "type": "String",
+                        "example": "Foo"
+                    },
+                    "username": {
+                        "description": "Arrivel",
+                        "type": "String",
+                        "example": "qwqw"
+                    },
+                    "itemno": {
+                        "description": "item no",
+                        "type": "string",
+                        "example": "121"
+                    },
+                    "date": {
+                        "description": "date of invoice",
+                        "type": "string",
+                        "example": "2020-09-09"
+                    },
+                    "pprice": {
+                        "description": "pprice",
+                        "type": "string",
+                        "example": "20"
+                    },
+                    "bonis": {
+                        "description": "bonis",
+                        "type": "string",
+                        "example": "2"
+                    },
+                    "carton": {
+                        "description": "carton",
+                        "type": "string",
+                        "example": "2"
                     }
                 },
                 "type": "object"
