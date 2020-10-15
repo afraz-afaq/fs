@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FilterController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\MrdebtController;
 use App\Http\Controllers\MrtypeController;
 use App\Http\Controllers\ProductController;
@@ -77,3 +78,8 @@ Route::GET('product/{id}/status/{status}',[ProductController::class, 'changeStat
 
 Route::GET('mrtype',[MrtypeController::class, 'index']);
 Route::GET('mrdebt',[MrdebtController::class, 'index']);
+
+Route::GET('invoice',[InvoiceController::class, 'index']);
+Route::GET('invoice/view',[InvoiceController::class, 'view']);
+Route::GET('invoice/product-delete',[InvoiceController::class, 'deleteProduct']);
+Route::POST('invoice/update',[InvoiceController::class, 'updateProduct']);

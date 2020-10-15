@@ -72,6 +72,211 @@
                 }
             }
         },
+        "/invoice": {
+            "get": {
+                "tags": [
+                    "Invoice Table List"
+                ],
+                "summary": "Returns the invoices",
+                "description": "Return the list of Invoices.",
+                "operationId": "index",
+                "parameters": [
+                    {
+                        "name": "customer_name",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "date",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sort_order",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sort_type",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "All Invoices",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "true"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "{'data' : [Invoice Object, Invoice Object], 'message':'All Invoices'}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/invoice/view": {
+            "get": {
+                "tags": [
+                    "Invoice View"
+                ],
+                "summary": "Returns the invoice",
+                "description": "Returns the invoice.",
+                "operationId": "view",
+                "parameters": [
+                    {
+                        "name": "ie",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "isDelete",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "itemno",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Invoice",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "true"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "{'data' : {invoice Object}, 'message':'Invoice retrieved'}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No such record exists"
+                    }
+                }
+            }
+        },
+        "/invoice/product-delete": {
+            "get": {
+                "tags": [
+                    "Invoice Product Delete"
+                ],
+                "summary": "Deletes the invoice product",
+                "description": "Deletes the invoice product",
+                "operationId": "deleteProduct",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Invoice Product Deleted.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "true"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "{'data' : {flag}, 'message':'Invoice Product Deleted.'}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No such record exists"
+                    }
+                }
+            }
+        },
+        "/invoice/update": {
+            "post": {
+                "tags": [
+                    "Invoice update"
+                ],
+                "summary": "Invoice update",
+                "description": "Invoice update",
+                "operationId": "updateProduct",
+                "requestBody": {
+                    "description": "update invoice object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/InvoiceUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "validation fails"
+                    },
+                    "200": {
+                        "description": "Invoice Updated."
+                    }
+                }
+            }
+        },
         "/mrdebt": {
             "get": {
                 "tags": [
@@ -538,6 +743,48 @@
     },
     "components": {
         "schemas": {
+            "InvoiceUpdate": {
+                "title": "Invoice Update model",
+                "description": "Model for Updating Invoice",
+                "properties": {
+                    "ie": {
+                        "description": "ie",
+                        "type": "String",
+                        "example": "sale"
+                    },
+                    "mrname": {
+                        "description": "Customer name",
+                        "type": "String",
+                        "example": "Foo"
+                    },
+                    "arrivel": {
+                        "description": "Arrivel",
+                        "type": "String",
+                        "example": "qwqw"
+                    },
+                    "itemno": {
+                        "description": "item no",
+                        "type": "string",
+                        "example": "121"
+                    },
+                    "date": {
+                        "description": "date of invoice",
+                        "type": "string",
+                        "example": "2020-09-09"
+                    },
+                    "discount": {
+                        "description": "Discount",
+                        "type": "string",
+                        "example": "1"
+                    },
+                    "comment": {
+                        "description": "Comment",
+                        "type": "string",
+                        "example": "YOYO"
+                    }
+                },
+                "type": "object"
+            },
             "SaveProduct": {
                 "title": "Save Product model",
                 "description": "Model for handeling product save through API",
