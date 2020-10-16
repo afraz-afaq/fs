@@ -71,7 +71,7 @@ class InvoiceController extends Controller
         FROM (SELECT itemno, mrname, date1, SUM(carton) * SUM(pprice) - (SUM(arrivel) + SUM(discount)) 
         AS total, isdelete 
         FROM ie
-        where ie = $ie
+        where ie = '$ie'
         GROUP BY itemno, mrname, date1, ie2, isdelete HAVING (ie2 IS NULL) OR (ie2 = N'') OR (ie2 = N'voucher')) AS derivedtbl_1";
 
         if (isset($_GET['customer_name']) && isset($_GET['date']))
