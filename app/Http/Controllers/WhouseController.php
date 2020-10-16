@@ -12,8 +12,8 @@ class WhouseController extends Controller
      * @OA\Get(
      *     path="/whouse",
      *     tags={"Whouse Table Product List"},
-     *     summary="Returns the whouse products",
-     *     description="Return the list of products from whouse table.",
+     *     summary="Returns the whouse products.",
+     *     description="Return the list of products from whouse table. Order By: 'pbarcode', 'pname', 'pclass', 'cwhouse', 'saleprice','manufacturer','scientificn'",
      *     operationId="index",
      *     @OA\Parameter(
      *     name="pclass",

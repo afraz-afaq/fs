@@ -18,7 +18,41 @@ class ProductController extends Controller
      *     summary="Returns the products",
      *     description="Return the list of products from product table.",
      *     operationId="index",
-     * 
+     *     @OA\Parameter(
+     *     name="pclass",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     *    @OA\Parameter(
+     *     name="pname",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     *    @OA\Parameter(
+     *     name="manufacturer",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     *  @OA\Parameter(
+     *     name="order_by",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     *    @OA\Parameter(
+     *     name="sort_by",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
      *     @OA\Response(
      *         response=200,
      *          description="All Products",

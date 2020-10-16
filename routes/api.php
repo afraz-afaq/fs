@@ -4,9 +4,12 @@ use App\Http\Controllers\FilterController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\MrdebtController;
 use App\Http\Controllers\MrtypeController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WhouseController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VoucherController;
+use App\Models\Notification;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -87,3 +90,7 @@ Route::POST('invoice/update',[InvoiceController::class, 'updateProduct']);
 Route::GET('invoice/get-itemno',[InvoiceController::class, 'getInvoiceNumber']);
 Route::POST('invoice/save',[InvoiceController::class, 'saveInvoice']);
 Route::POST('invoice/save-product',[InvoiceController::class, 'saveInvoiceProduct']);
+
+Route::GET('voucher',[VoucherController::class, 'index']);
+
+Route::GET('notification',[NotificationController::class, 'index']);

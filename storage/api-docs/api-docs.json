@@ -496,6 +496,42 @@
                 }
             }
         },
+        "/notification": {
+            "get": {
+                "tags": [
+                    "Notification Table List"
+                ],
+                "summary": "Returns the notifications",
+                "description": "Return the list of notifications.",
+                "operationId": "index",
+                "responses": {
+                    "200": {
+                        "description": "All Notifications",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "true"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "{'data' : [Notification Object, Notification Object], 'message':'All Notifications'}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/product": {
             "get": {
                 "tags": [
@@ -504,6 +540,43 @@
                 "summary": "Returns the products",
                 "description": "Return the list of products from product table.",
                 "operationId": "index",
+                "parameters": [
+                    {
+                        "name": "pclass",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "pname",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "manufacturer",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order_by",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sort_by",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "All Products",
@@ -780,13 +853,79 @@
                 }
             }
         },
+        "/voucher": {
+            "get": {
+                "tags": [
+                    "Voucher List"
+                ],
+                "summary": "Returns the voucher list",
+                "description": "Return the list of vouchers.\n     *       Order by Fields: mrname => Customer, date1 => date, itemno => Item no, amount => arrivel",
+                "operationId": "index",
+                "parameters": [
+                    {
+                        "name": "mrname",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "date1",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order_by",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sort_by",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "All Vouchers",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "true"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "{'data' : [Voucher Object, Voucher Object], 'message':'All Vouchers'}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/whouse": {
             "get": {
                 "tags": [
                     "Whouse Table Product List"
                 ],
-                "summary": "Returns the whouse products",
-                "description": "Return the list of products from whouse table.",
+                "summary": "Returns the whouse products.",
+                "description": "Return the list of products from whouse table. Order By: 'pbarcode', 'pname', 'pclass', 'cwhouse', 'saleprice','manufacturer','scientificn'",
                 "operationId": "index",
                 "parameters": [
                     {
