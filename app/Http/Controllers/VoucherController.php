@@ -45,6 +45,13 @@ class VoucherController extends Controller
      *       type="string"
      *     ),
      * ),
+     *  @OA\Parameter(
+     *     name="itemno",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
      *     @OA\Response(
      *         response=200,
      *          description="All Vouchers",
@@ -68,6 +75,8 @@ class VoucherController extends Controller
             $vouchers = $vouchers->where('mrname', $_GET['mrname']);
         if (isset($_GET['date1']))
             $vouchers = $vouchers->where('date1', $_GET['date1']);
+        if (isset($_GET['itemno']))
+            $vouchers = $vouchers->where('itemno', $_GET['itemno']);
         if (isset($_GET['order_by']) && isset($_GET['sort_by'])) {
             $vouchers = $vouchers->orderBy($_GET['order_by'], $_GET['sort_by']);
         } else if (isset($_GET['order_by'])) {
@@ -85,7 +94,7 @@ class VoucherController extends Controller
 
 
 
-        /**
+    /**
      * @OA\Get(
      *     path="/voucher/pay",
      *     tags={"Pay Voucher List"},
@@ -121,6 +130,13 @@ class VoucherController extends Controller
      *       type="string"
      *     ),
      * ),
+     *    @OA\Parameter(
+     *     name="itemno",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
      *     @OA\Response(
      *         response=200,
      *          description="All Vouchers",
@@ -144,6 +160,8 @@ class VoucherController extends Controller
             $vouchers = $vouchers->where('mrname', $_GET['mrname']);
         if (isset($_GET['date1']))
             $vouchers = $vouchers->where('date1', $_GET['date1']);
+        if (isset($_GET['itemno']))
+            $vouchers = $vouchers->where('itemno', $_GET['itemno']);
         if (isset($_GET['order_by']) && isset($_GET['sort_by'])) {
             $vouchers = $vouchers->orderBy($_GET['order_by'], $_GET['sort_by']);
         } else if (isset($_GET['order_by'])) {

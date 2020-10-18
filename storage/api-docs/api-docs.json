@@ -1078,6 +1078,13 @@
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    {
+                        "name": "itemno",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -1140,6 +1147,13 @@
                     },
                     {
                         "name": "sort_by",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "itemno",
                         "in": "query",
                         "schema": {
                             "type": "string"
