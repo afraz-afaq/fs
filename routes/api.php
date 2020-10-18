@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\BudgetReportController;
 use App\Http\Controllers\FilterController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\MrdebtController;
 use App\Http\Controllers\MrtypeController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\WhouseController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoucherController;
@@ -92,5 +94,9 @@ Route::POST('invoice/save',[InvoiceController::class, 'saveInvoice']);
 Route::POST('invoice/save-product',[InvoiceController::class, 'saveInvoiceProduct']);
 
 Route::GET('voucher',[VoucherController::class, 'index']);
+Route::GET('voucher/pay',[VoucherController::class, 'pay']);
 
 Route::GET('notification',[NotificationController::class, 'index']);
+
+Route::GET('report/budget',[ReportController::class, 'budgetReport']);
+Route::GET('report/chart',[ReportController::class, 'chartReport']);

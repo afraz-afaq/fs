@@ -740,6 +740,195 @@
                 }
             }
         },
+        "/report/budget": {
+            "get": {
+                "tags": [
+                    "Budget Report"
+                ],
+                "summary": "Returns the budget report",
+                "description": "Return the budget report.\n     *      Report contains two parts (first half and its sum and count, and second half and its sum and count)",
+                "operationId": "index",
+                "responses": {
+                    "200": {
+                        "description": "Budget Report",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "true"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "{'data' : ['first_half', 'first_half_sum_and_count', 'second_half', 'second_half_sum_and_count'], 'message':'Budget Report'}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/report/chart": {
+            "get": {
+                "tags": [
+                    "Chart Report"
+                ],
+                "summary": "Returns the Chart Report",
+                "description": "Return the Chart Report.\n     *        display type: amount or quantity, movement type: less or large, report type: customers or products",
+                "operationId": "chartReport",
+                "parameters": [
+                    {
+                        "name": "customer_name",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "movement_type",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "display_type",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "pname",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "pclass",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "governer",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "city",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ie",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "manufacturer",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "rows",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "from_date",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "to_date",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "report_type",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Chart Data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "true"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "{'data' : ['chart' : 'data'], 'message' : 'Chart Report data'}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Make sure from date, to date and rows are not empty",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "false"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": "400"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "{'data' : ['data' : 'null'], 'message' : 'Make sure from date, to date and rows are not empty'}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/user/login": {
             "post": {
                 "tags": [
@@ -909,6 +1098,72 @@
                                         "data": {
                                             "type": "string",
                                             "example": "{'data' : [Voucher Object, Voucher Object], 'message':'All Vouchers'}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/voucher/pay": {
+            "get": {
+                "tags": [
+                    "Pay Voucher List"
+                ],
+                "summary": "Returns the pay voucher list",
+                "description": "Return the list of pay vouchers.\n     *       Order by Fields: mrname => Customer, date1 => date, itemno => Item no, amount => arrivel",
+                "operationId": "index",
+                "parameters": [
+                    {
+                        "name": "mrname",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "date1",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order_by",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sort_by",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "All Vouchers",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "true"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "{'data' : [Pay Voucher Object, Pay Voucher Object], 'message':'All Vouchers'}"
                                         }
                                     },
                                     "type": "object"
