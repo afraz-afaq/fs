@@ -929,6 +929,107 @@
                 }
             }
         },
+        "/report/yearly": {
+            "get": {
+                "tags": [
+                    "Yearly Report"
+                ],
+                "summary": "Returns the Yearly Report",
+                "description": "Return the Yearly Report. display type: products or customers, report for: value or percentage, result type: quantity or amount, report type: sale or buy",
+                "operationId": "getBuySellYearlyReport",
+                "parameters": [
+                    {
+                        "name": "customer_name",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "scientificn",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "display_type",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "pname",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "pclass",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "result_type",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "report_for",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "manufacturer",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "report_type",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Chart Data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "true"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "{'data' : ['yearly' : 'data'], 'message' : 'Yearly Report data'}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/user/login": {
             "post": {
                 "tags": [

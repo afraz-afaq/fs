@@ -67,12 +67,12 @@ class InvoiceController extends Controller
     public function index()
     {
         $ie = isset($_GET['ie']) ? $_GET['ie'] : 'sale';
-        $query = "SELECT TOP (100) PERCENT itemno, mrname, date1, SUM(total) AS total, isdelete 
-        FROM (SELECT itemno, mrname, date1, SUM(carton) * SUM(pprice) - (SUM(arrivel) + SUM(discount)) 
+        $query = "SELECT TOP (100) PERCENT id, itemno, mrname, date1, SUM(total) AS total, isdelete 
+        FROM (SELECT id, itemno, mrname, date1, SUM(carton) * SUM(pprice) - (SUM(arrivel) + SUM(discount)) 
         AS total, isdelete 
         FROM ie
         where ie = '$ie'
-        GROUP BY itemno, mrname, date1, ie2, isdelete HAVING (ie2 IS NULL) OR (ie2 = N'') OR (ie2 = N'voucher')) AS derivedtbl_1";
+        GROUP BY id, itemno, mrname, date1, ie2, isdelete HAVING (ie2 IS NULL) OR (ie2 = N'') OR (ie2 = N'voucher')) AS derivedtbl_1";
 
         if (isset($_GET['customer_name']) && isset($_GET['date']))
             $query .= " where mrname = '" . $_GET['customer_name'] . "' And date1 = '" . $_GET['date'] . "'";
@@ -81,7 +81,7 @@ class InvoiceController extends Controller
         else if (isset($_GET['date']))
             $query .= " where date1 = '" . $_GET['date'] . "'";
 
-        $ending_of_query = " GROUP BY itemno, mrname, date1, isdelete";
+        $ending_of_query = " GROUP BY id, itemno, mrname, date1, isdelete";
 
         if (isset($_GET['sort_order']))
             $ending_of_query .= " order by " . $_GET['sort_order'] . " " . $_GET['sort_type'];
