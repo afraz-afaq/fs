@@ -68,7 +68,7 @@ class ProductController extends Controller
     public function index()
     {
 
-        $product_list = Product::select(['pbarcode', 'pname', 'pclass', 'saleprice', 'buyprice','manufacturer','scientificn','active']);
+        $product_list = Product::select(['id','pbarcode', 'pname', 'pclass', 'saleprice', 'buyprice','manufacturer','scientificn','active']);
 
         if (isset($_GET['pclass']))
             $product_list = $product_list->where('pclass', $_GET['pclass']);
@@ -308,7 +308,7 @@ class ProductController extends Controller
      */
 
     public function changeStatus($id,$status){
-        $product = Product::where('pbarcode', $id)->first();
+        $product = Product::where('id', $id)->first();
         $product->timestamps = false;
         $product->active = $status;
         if ($product->save()) {

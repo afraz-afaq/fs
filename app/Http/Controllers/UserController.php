@@ -303,4 +303,96 @@ class UserController extends Controller
             'data' => ['data' => ['flag' => $flag], 'message' => "Token Saved."]
         ], 200);
     }
+
+
+
+   /**
+     *@OA\Schema(
+     *  schema="ResetPassword",
+     *  title="User rest password",
+     *  description="Model for handeling User rest password",
+     * 
+     *  @OA\Property(
+     *     property="password",
+     *     type="String",
+     *     description="previous or current password",
+     *      example="123456"
+     *  ),
+     * 
+     *   @OA\Property(
+     *     property="new_password",
+     *     type="String",
+     *     description="new user password",
+     *      example="something123"
+     *  ),
+     * 
+     *  @OA\Property(
+     *     property="id",
+     *     type="string",
+     *     description="user id",
+     *      example="1"
+     *  ),
+     * 
+     * 
+     *)
+     */
+
+
+    /**
+     * @OA\Post(
+     *     path="/user/reset-password",
+     *     tags={"User Password Reset"},
+     *     summary="Reset User password",
+     *     description="Takes user current and new password and reset it through ID",
+     *     operationId="resetPassword",
+     *    @OA\RequestBody(
+     *         description="Resets user password",
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/ResetPassword")
+     *     ),
+     *     @OA\Response(
+     *         response="400",
+     *         description="validation fails"
+     *     ),
+     *  @OA\Response(
+     *         response="200",
+     *         description="Password Saved."
+     *     ),
+     * )
+     */
+
+    public function resetPassword(Request $request){
+        $data = $request->all();
+        $password = $data['password'];
+        $new_password = $data['new_password'];
+        $id = $data['id'];
+
+        $user = User::find($id);
+        if($user){
+            if($user->upass == $password){
+                $user->upass = $new_password;
+                $user->timestamps = false;
+                $flag = $user->save();
+                return response()->json([
+                    'status' => true,
+                    'statusCode' => 200,
+                    'data' => ['data' => ['flag' => $flag], 'message' => "Password Saved."]
+                ], 200);
+            }
+            else{
+                return response()->json([
+                    'status' => false,
+                    'statusCode' => 400,
+                    'data' => ['data' => null, 'message' => "Incorrect password."]
+                ], 400);
+            }
+        }
+        else{
+            return response()->json([
+                'status' => false,
+                'statusCode' => 404,
+                'data' => ['data' => null, 'message' => "User does not exists"]
+            ], 404);
+        }
+    }
 }

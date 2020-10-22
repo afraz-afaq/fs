@@ -73,6 +73,7 @@ Route::POST('user/login', [UserController::class, 'login']);
 Route::GET('list/{id}',[FilterController::class,'getList']);
 Route::POST('user/signup', [UserController::class, 'signup']);
 Route::GET('user/save-token', [UserController::class, 'savedeviceToken']);
+Route::POST('user/reset-password', [UserController::class, 'resetPassword']);
 
 Route::GET('whouse',[WhouseController::class, 'index']);
 Route::GET('whouse/{id}',[WhouseController::class, 'view']);

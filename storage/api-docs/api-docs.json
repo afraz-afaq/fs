@@ -1143,6 +1143,35 @@
                 }
             }
         },
+        "/user/reset-password": {
+            "post": {
+                "tags": [
+                    "User Password Reset"
+                ],
+                "summary": "Reset User password",
+                "description": "Takes user current and new password and reset it through ID",
+                "operationId": "resetPassword",
+                "requestBody": {
+                    "description": "Resets user password",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ResetPassword"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "validation fails"
+                    },
+                    "200": {
+                        "description": "Password Saved."
+                    }
+                }
+            }
+        },
         "/voucher": {
             "get": {
                 "tags": [
@@ -1649,6 +1678,28 @@
                         "description": "Account mobile of the user",
                         "type": "String",
                         "example": "0987654322"
+                    }
+                },
+                "type": "object"
+            },
+            "ResetPassword": {
+                "title": "User rest password",
+                "description": "Model for handeling User rest password",
+                "properties": {
+                    "password": {
+                        "description": "previous or current password",
+                        "type": "String",
+                        "example": "123456"
+                    },
+                    "new_password": {
+                        "description": "new user password",
+                        "type": "String",
+                        "example": "something123"
+                    },
+                    "id": {
+                        "description": "user id",
+                        "type": "string",
+                        "example": "1"
                     }
                 },
                 "type": "object"
