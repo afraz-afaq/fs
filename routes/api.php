@@ -102,3 +102,4 @@ Route::GET('notification',[NotificationController::class, 'index']);
 Route::GET('report/budget',[ReportController::class, 'budgetReport']);
 Route::GET('report/chart',[ReportController::class, 'chartReport']);
 Route::GET('report/yearly',[ReportController::class, 'getBuySellYearlyReport']);
+Route::GET('report/buy-sell',[ReportController::class, 'buySellReport']);

@@ -265,7 +265,7 @@ class ReportController extends Controller
         ], 200);
     }
 
-    
+
 
     /**
      * @OA\Get(
@@ -426,11 +426,111 @@ class ReportController extends Controller
 
         $data = DB::select($query);
 
-        
+
         return response()->json([
             'status' => true,
             'statusCode' => 200,
             'data' => ['data' => ['yearly' => $data], 'message' => "Yearly Report data"]
+        ], 200);
+    }
+
+
+
+    /**
+     * @OA\Get(
+     *     path="/report/buy-sell",
+     *     tags={"buy sell report"},
+     *     summary="Returns Buy Sell Report",
+     *     description="Return the Buy Sell Report. display type: short or detail, Report type: quantity or amount, report type: fwhouse, draftbuy, returnbuy, buy, draftsale, sale, returnsale, loss",
+     *     operationId="getBuySellYearlyReport",
+     *     @OA\Parameter(
+     *     name="customerName",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     *    @OA\Parameter(
+     *     name="scientificn",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     *    @OA\Parameter(
+     *     name="displayType",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     *     @OA\Parameter(
+     *     name="pname",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     *  @OA\Parameter(
+     *     name="pclass",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     *  @OA\Parameter(
+     *     name="manufacturer",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     *   @OA\Parameter(
+     *     name="reportType",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     * 
+     *    @OA\Parameter(
+     *     name="barcode",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     *     @OA\Response(
+     *         response=200,
+     *          description="Chart Data",
+     *       @OA\JsonContent(
+     *       @OA\Property(property="status", type="string", example="true"),
+     *       @OA\Property(property="statusCode", type="integer", example="200"),
+     *       @OA\Property(property="data", type="string", example="{'data' : ['buy-sell' : 'data'], 'message' : 'Buy Sell Report.'}")
+     *        )
+     *     ),
+
+
+     * )
+     */
+
+
+    public function buySellReport()
+    {
+        $displayType = isset($_GET['displayType']) ? $_GET['displayType'] : "";
+
+        if ($displayType == 'short')
+            $query = $this->getBuySellReportShort($_GET);
+        else
+            $query = $this->getBuySellReportDetailed($_GET);
+
+        $data = DB::select($query);
+
+
+        return response()->json([
+            'status' => true,
+            'statusCode' => 200,
+            'data' => ['data' => ['buy-sell' => $data], 'message' => "Buy Sell Report."]
         ], 200);
     }
 
@@ -487,11 +587,85 @@ class ReportController extends Controller
     }
 
 
-       public function queryForYearlyBuyAmountReport($result_type){
 
-       }
+    public function queryForYearlyBuyAmountReport($result_type)
+    {
+    }
 
-       public function queryForYearlyBuyQuantityReport($result_type){
+    public function queryForYearlyBuyQuantityReport($result_type)
+    {
+    }
 
-       }
+
+
+    public function getBuySellReportShort($data)
+    {
+        $ie = isset($data['reportType']) ? $data['reportType'] : "";
+        $fromDate = isset($data['fromDate']) ? $data['reportType'] : "";
+        $toDate = isset($data['toDate']) ? $data['reportType'] : "";
+
+        $query = "SELECT pclass, manufacturer, pname, pbarcode, SUM(carton) AS Quantity, SUM(bonis) AS Bonus, pprice AS Price, SUM(carton) * pprice AS Total FROM dbo.adata ";
+
+        $filterQuery = "where ie = '" . $ie . "' ";
+        $filterQuery = $filterQuery . " and (date1 >= '" . $fromDate . "' and date1 <= '" . $toDate . "') ";
+
+        if (isset($data['barcode'])) {
+            $filterQuery = $filterQuery . " and pbarcode = '" . $data['barcode'] . "' ";
+        }
+        if (isset($data['pname'])) {
+            $filterQuery = $filterQuery . " and pname = '" . $data['pname'] . "' ";
+        }
+        if (isset($data['pclass'])) {
+            $filterQuery = $filterQuery . " and pclass = '" . $data['pclass'] . "' ";
+        }
+        if (isset($data['manufacturer'])) {
+            $filterQuery = $filterQuery . " and manufacturer = '" . $data['manufacturer'] . "' ";
+        }
+        if (isset($data['customerName'])) {
+            $filterQuery = $filterQuery . " and mrname = '" . $data['mrname'] . "' ";
+        }
+        if (isset($data['scientificn'])) {
+            $filterQuery = $filterQuery . " and scientificn = '" . $data['scientificn'] . "' ";
+        }
+        $groupBy = "GROUP BY pname, pprice, manufacturer, pclass, pbarcode ";
+        $having = "HAVING (pname IS NOT NULL) ";
+
+        return $query = $query . $filterQuery . $groupBy . $having;
+    }
+
+
+    public function getBuySellReportDetailed($data)
+    {
+
+        $ie = isset($data['reportType']) ? $data['reportType'] : "";
+        $fromDate = isset($data['fromDate']) ? $data['reportType'] : "";
+        $toDate = isset($data['toDate']) ? $data['reportType'] : "";
+
+        $query = "SELECT manufacturer, pclass, itemno, date1, mrname, pname, pbarcode, carton as Quantity, bonis AS Bonus, pprice as Price, carton * pprice AS Total FROM dbo.adata ";
+
+        $filterQuery = "where ie = '" . $ie . "' ";
+        $filterQuery = $filterQuery . " and (date1 >= '" . $fromDate . "' and date1 <= '" . $toDate . "') ";
+
+        if (isset($data['barcode'])) {
+            $filterQuery = $filterQuery . " and pbarcode = '" . $data['barcode'] . "' ";
+        }
+        if (isset($data['pname'])) {
+            $filterQuery = $filterQuery . " and pname = '" . $data['pname'] . "' ";
+        }
+        if (isset($data['pclass'])) {
+            $filterQuery = $filterQuery . " and pclass = '" . $data['pclass'] . "' ";
+        }
+        if (isset($data['manufacturer'])) {
+            $filterQuery = $filterQuery . " and manufacturer = '" . $data['manufacturer'] . "' ";
+        }
+        if (isset($data['customerName'])) {
+            $filterQuery = $filterQuery . " and mrname = '" . $data['mrname'] . "' ";
+        }
+        if (isset($data['scientificn'])) {
+            $filterQuery = $filterQuery . " and scientificn = '" . $data['scientificn'] . "' ";
+        }
+
+
+        return $query = $query . $filterQuery;
+    }
 }
