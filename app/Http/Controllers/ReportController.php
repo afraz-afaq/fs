@@ -622,7 +622,7 @@ class ReportController extends Controller
             $filterQuery = $filterQuery . " and manufacturer = '" . $data['manufacturer'] . "' ";
         }
         if (isset($data['customerName'])) {
-            $filterQuery = $filterQuery . " and mrname = '" . $data['mrname'] . "' ";
+            $filterQuery = $filterQuery . " and mrname = '" . $data['customerName'] . "' ";
         }
         if (isset($data['scientificn'])) {
             $filterQuery = $filterQuery . " and scientificn = '" . $data['scientificn'] . "' ";
@@ -659,7 +659,7 @@ class ReportController extends Controller
             $filterQuery = $filterQuery . " and manufacturer = '" . $data['manufacturer'] . "' ";
         }
         if (isset($data['customerName'])) {
-            $filterQuery = $filterQuery . " and mrname = '" . $data['mrname'] . "' ";
+            $filterQuery = $filterQuery . " and mrname = '" . $data['customerName'] . "' ";
         }
         if (isset($data['scientificn'])) {
             $filterQuery = $filterQuery . " and scientificn = '" . $data['scientificn'] . "' ";
