@@ -230,7 +230,7 @@ class ReportController extends Controller
             $filterQuery = "HAVING (pname IS NOT NULL AND pname <> N'') AND (SUM(carton) <> 0) ";
         }
 
-        $whereQuery = " WHERE (ie = N'" . $ie . "') AND (dbo.adata.date1 >= '" . $to_date . "' and dbo.adata.date1 <= '" . $from_date . "') ";
+        $whereQuery = " WHERE (ie = N'" . $ie . "') AND (dbo.adata.date1 >= '" . $from_date . "' and dbo.adata.date1 <= '" . $to_date . "') ";
         $orderBy = " ORDER BY Quantity ";
 
         if (isset($_GET['pclass']))

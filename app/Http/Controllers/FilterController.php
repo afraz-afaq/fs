@@ -13,7 +13,6 @@ use App\Models\Mrtype;
 use App\Models\Pclass;
 use App\Models\Product;
 use App\Models\Scientificn;
-use Illuminate\Http\Request;
 
 class FilterController extends Controller
 {
@@ -119,7 +118,7 @@ class FilterController extends Controller
         }
         if ($table != "") {
 
-            $list = $table::select([$field])->get();
+            $list = $table::select($field." as data")->get();
 
             return response()->json([
                 'status' => true,

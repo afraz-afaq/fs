@@ -196,7 +196,7 @@ class VoucherController extends Controller
     public function pay()
     {
 
-        $vouchers = Invoice::select(['id', 'mrname', 'itemno', 'date1', 'arrivel', 'comment','isDelete'])
+        $vouchers = Invoice::select(['id', 'mrname', 'itemno', 'date1', 'total', 'comment','isDelete'])
             ->where('ie', 'payvoucher');
 
 
@@ -216,7 +216,7 @@ class VoucherController extends Controller
         return response()->json([
             'status' => true,
             'statusCode' => 200,
-            'data' => ['data' => ['payvoucher' => $vouchers->get(), 'sum' => $vouchers->sum('arrivel'), 'count' => $vouchers->count()], 'message' => "All Pay Vouchers"]
+            'data' => ['data' => ['payvoucher' => $vouchers->get(), 'sum' => $vouchers->sum('total'), 'count' => $vouchers->count()], 'message' => "All Pay Vouchers"]
         ], 200);
     }
 }

@@ -255,6 +255,61 @@
                 }
             }
         },
+        "/invoice/delete": {
+            "get": {
+                "tags": [
+                    "Invoice Delete"
+                ],
+                "summary": "Deletes the invoice",
+                "description": "Deletes the invoice",
+                "operationId": "deleteInvoice",
+                "parameters": [
+                    {
+                        "name": "itemno",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ie",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Invoice Deleted.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "true"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "{'data' : {flag}, 'message':'Invoice Deleted.'}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No such record exists"
+                    }
+                }
+            }
+        },
         "/invoice/update": {
             "post": {
                 "tags": [
@@ -394,6 +449,79 @@
                 }
             }
         },
+        "/merchant": {
+            "get": {
+                "tags": [
+                    "Get Merchant"
+                ],
+                "summary": "Returns Merchant",
+                "description": "Returns Merchant",
+                "operationId": "index",
+                "parameters": [
+                    {
+                        "name": "mrname",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "address",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order_by",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sort_by",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Mercant",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "true"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "{'data' : [Mercant Object, Mercant Object], 'message':'Mercant'}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/mrdebt": {
             "get": {
                 "tags": [
@@ -403,6 +531,13 @@
                 "description": "Return the list of customers from mrdebt table.",
                 "operationId": "index",
                 "parameters": [
+                    {
+                        "name": "mrname",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
                     {
                         "name": "type",
                         "in": "query",
@@ -1335,6 +1470,54 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/voucher/delete": {
+            "get": {
+                "tags": [
+                    "Voucher or Payvoucher Delete"
+                ],
+                "summary": "Deletes the voucher or pay voucher",
+                "description": "Deletes the Voucher or Pay Voucher",
+                "operationId": "deleteProduct",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Voucher or Payvoucher Delete.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "true"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "{'data' : {flag}, 'message':'Voucher/Pay Voucher Deleted.'}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No such record exists"
                     }
                 }
             }

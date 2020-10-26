@@ -3,6 +3,7 @@
 use App\Http\Controllers\BudgetReportController;
 use App\Http\Controllers\FilterController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\MerchantController;
 use App\Http\Controllers\MrdebtController;
 use App\Http\Controllers\MrtypeController;
 use App\Http\Controllers\NotificationController;
@@ -93,6 +94,7 @@ Route::POST('invoice/update',[InvoiceController::class, 'updateProduct']);
 Route::GET('invoice/get-itemno',[InvoiceController::class, 'getInvoiceNumber']);
 Route::POST('invoice/save',[InvoiceController::class, 'saveInvoice']);
 Route::POST('invoice/save-product',[InvoiceController::class, 'saveInvoiceProduct']);
+Route::GET('invoice/delete',[InvoiceController::class, 'deleteInvoice']);
 
 Route::GET('voucher',[VoucherController::class, 'index']);
 Route::GET('voucher/pay',[VoucherController::class, 'pay']);
@@ -104,3 +106,5 @@ Route::GET('report/budget',[ReportController::class, 'budgetReport']);
 Route::GET('report/chart',[ReportController::class, 'chartReport']);
 Route::GET('report/yearly',[ReportController::class, 'getBuySellYearlyReport']);
 Route::GET('report/buy-sell',[ReportController::class, 'buySellReport']);
+
+Route::GET('merchant',[MerchantController::class, 'index']);

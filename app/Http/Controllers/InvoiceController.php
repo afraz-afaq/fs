@@ -67,12 +67,12 @@ class InvoiceController extends Controller
     public function index()
     {
         $ie = isset($_GET['ie']) ? $_GET['ie'] : 'sale';
-        $query = "SELECT TOP (100) PERCENT id, itemno, mrname, date1, SUM(total) AS total, isdelete 
-        FROM (SELECT id, itemno, mrname, date1, SUM(carton) * SUM(pprice) - (SUM(arrivel) + SUM(discount)) 
+        $query = "SELECT TOP (100) PERCENT  itemno, mrname, date1, SUM(total) AS total, isdelete 
+        FROM (SELECT  itemno, mrname, date1, SUM(carton) * SUM(pprice) - (SUM(arrivel) + SUM(discount)) 
         AS total, isdelete 
         FROM ie
         where ie = '$ie'
-        GROUP BY id, itemno, mrname, date1, ie2, isdelete HAVING (ie2 IS NULL) OR (ie2 = N'') OR (ie2 = N'voucher')) AS derivedtbl_1";
+        GROUP BY  itemno, mrname, date1, ie2, isdelete HAVING (ie2 IS NULL) OR (ie2 = N'') OR (ie2 = N'voucher')) AS derivedtbl_1";
 
         if (isset($_GET['customer_name']) && isset($_GET['date']))
             $query .= " where mrname = '" . $_GET['customer_name'] . "' And date1 = '" . $_GET['date'] . "'";
@@ -81,7 +81,7 @@ class InvoiceController extends Controller
         else if (isset($_GET['date']))
             $query .= " where date1 = '" . $_GET['date'] . "'";
 
-        $ending_of_query = " GROUP BY id, itemno, mrname, date1, isdelete";
+        $ending_of_query = " GROUP BY  itemno, mrname, date1, isdelete";
 
         if (isset($_GET['sort_order']))
             $ending_of_query .= " order by " . $_GET['sort_order'] . " " . $_GET['sort_type'];
@@ -151,7 +151,7 @@ class InvoiceController extends Controller
 
         $ie = DB::select("Select id, ie, itemno, mrname, date1, pname, carton, pprice, bonis, username 
         from dbo.ie 
-        where ie = '$ie' and itemno = $itemo and isdelete = $isDelete and ie2 is NULL");
+        where ie = '$ie' and itemno = '$itemo' and isdelete = '$isDelete' and ie2 is NULL");
 
         return response()->json([
             'status' => true,
@@ -201,6 +201,61 @@ class InvoiceController extends Controller
             'status' => true,
             'statusCode' => 200,
             'data' => ['data' => ['flag' => $flag], 'message' => "Invoice Product Deleted."]
+        ], 200);
+    }
+
+
+
+
+    /**
+     * @OA\Get(
+     *     path="/invoice/delete",
+     *     tags={"Invoice Delete"},
+     *     summary="Deletes the invoice",
+     *     description="Deletes the invoice",
+     *     operationId="deleteInvoice",
+     * 
+     *  @OA\Parameter(
+     *     name="itemno",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     * 
+     *@OA\Parameter(
+     *     name="ie",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     *     @OA\Response(
+     *         response=200,
+     *          description="Invoice Deleted.",
+     *       @OA\JsonContent(
+     *       @OA\Property(property="status", type="string", example="true"),
+     *       @OA\Property(property="statusCode", type="integer", example="200"),
+     *       @OA\Property(property="data", type="string", example="{'data' : {flag}, 'message':'Invoice Deleted.'}")
+     *        )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *          description="No such record exists",
+     *     ),
+     * )
+     */
+    public function deleteInvoice()
+    {
+
+        $isDelete = $_GET['itemno'];
+        $ie = $_GET['ie'];
+        $flag = DB::update("UPDATE dbo.ie set isdelete = 1 where itemno = '$isDelete' and ie = '$ie'");
+
+        return response()->json([
+            'status' => true,
+            'statusCode' => 200,
+            'data' => ['data' => ['flag' => $flag], 'message' => "Invoice Deleted."]
         ], 200);
     }
 
