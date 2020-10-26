@@ -205,17 +205,17 @@ class ReportController extends Controller
 
         $movement_type = isset($_GET['movement_type']) ? $_GET['movement_type'] : 'less';
         $display_type = isset($_GET['display_type']) ? $_GET['display_type'] : 'quantity';
-        $from_date = isset($_GET['from_date']) ? $_GET['from_date'] : null;
-        $to_date = isset($_GET['to_date']) ? $_GET['from_date'] : null;
+        $from_date = isset($_GET['from_date']) ? $_GET['from_date'] : "1800/01/01";
+        $to_date = isset($_GET['to_date']) ? $_GET['from_date'] : "9099/09/29";
         $rows = isset($_GET['rows']) ? $_GET['rows'] : null;
         $ie = isset($_GET['ie']) ? $_GET['ie'] : "sale";
         $report_type = isset($_GET['report_type']) ? $_GET['report_type'] : "customers";
 
-        if ($from_date == null || $to_date == null || $rows == null) {
+        if ($rows == null) {
             return response()->json([
                 'status' => false,
                 'statusCode' => 400,
-                'data' => ['data' => null, 'message' => "Make sure from date, to date and rows are not empty"]
+                'data' => ['data' => null, 'message' => "Please provide number of rows to be fetched."]
             ], 400);
         }
 
@@ -500,6 +500,20 @@ class ReportController extends Controller
      *       type="string"
      *     ),
      * ),
+     * @OA\Parameter(
+     *     name="fromDate",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     *  @OA\Parameter(
+     *     name="toDate",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
      *     @OA\Response(
      *         response=200,
      *          description="Chart Data",
@@ -601,8 +615,8 @@ class ReportController extends Controller
     public function getBuySellReportShort($data)
     {
         $ie = isset($data['reportType']) ? $data['reportType'] : "";
-        $fromDate = isset($data['fromDate']) ? $data['reportType'] : "";
-        $toDate = isset($data['toDate']) ? $data['reportType'] : "";
+        $fromDate = isset($data['fromDate']) ? $data['fromDate'] : "1800/01/01";
+        $toDate = isset($data['toDate']) ? $data['toDate'] : "9099/09/29";
 
         $query = "SELECT pclass, manufacturer, pname, pbarcode, SUM(carton) AS Quantity, SUM(bonis) AS Bonus, pprice AS Price, SUM(carton) * pprice AS Total FROM dbo.adata ";
 
@@ -638,8 +652,8 @@ class ReportController extends Controller
     {
 
         $ie = isset($data['reportType']) ? $data['reportType'] : "";
-        $fromDate = isset($data['fromDate']) ? $data['reportType'] : "";
-        $toDate = isset($data['toDate']) ? $data['reportType'] : "";
+        $fromDate = isset($data['fromDate']) ? $data['fromDate'] : "1800/01/01";
+        $toDate = isset($data['toDate']) ? $data['toDate'] : "9099/09/29";
 
         $query = "SELECT manufacturer, pclass, itemno, date1, mrname, pname, pbarcode, carton as Quantity, bonis AS Bonus, pprice as Price, carton * pprice AS Total FROM dbo.adata ";
 
