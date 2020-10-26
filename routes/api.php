@@ -96,6 +96,7 @@ Route::POST('invoice/save-product',[InvoiceController::class, 'saveInvoiceProduc
 
 Route::GET('voucher',[VoucherController::class, 'index']);
 Route::GET('voucher/pay',[VoucherController::class, 'pay']);
+Route::GET('voucher/delete',[VoucherController::class, 'deleteVoucher']);
 
 Route::GET('notification',[NotificationController::class, 'index']);
 

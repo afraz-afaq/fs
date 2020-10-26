@@ -67,7 +67,7 @@ class VoucherController extends Controller
     public function index()
     {
 
-        $vouchers = Invoice::select(['mrname', 'itemno', 'date1', 'arrivel', 'comment'])
+        $vouchers = Invoice::select(['id', 'mrname', 'itemno', 'date1', 'arrivel', 'comment','isDelete'])
             ->where('ie', 'voucher');
 
 
@@ -91,6 +91,50 @@ class VoucherController extends Controller
         ], 200);
     }
 
+
+
+        /**
+     * @OA\Get(
+     *     path="/voucher/delete",
+     *     tags={"Voucher or Payvoucher Delete"},
+     *     summary="Deletes the voucher or pay voucher",
+     *     description="Deletes the Voucher or Pay Voucher",
+     *     operationId="deleteProduct",
+     * 
+     *  @OA\Parameter(
+     *     name="id",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     *     @OA\Response(
+     *         response=200,
+     *          description="Voucher or Payvoucher Delete.",
+     *       @OA\JsonContent(
+     *       @OA\Property(property="status", type="string", example="true"),
+     *       @OA\Property(property="statusCode", type="integer", example="200"),
+     *       @OA\Property(property="data", type="string", example="{'data' : {flag}, 'message':'Voucher/Pay Voucher Deleted.'}")
+     *        )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *          description="No such record exists",
+     *     ),
+     * )
+     */
+    public function deleteVoucher()
+    {
+
+        $isDelete = $_GET['id'];
+        $flag = DB::update("UPDATE dbo.ie set isdelete = 1 where id = $isDelete");
+
+        return response()->json([
+            'status' => true,
+            'statusCode' => 200,
+            'data' => ['data' => ['flag' => $flag], 'message' => "Voucher/Pay Voucher Deleted."]
+        ], 200);
+    }
 
 
 
@@ -152,7 +196,7 @@ class VoucherController extends Controller
     public function pay()
     {
 
-        $vouchers = Invoice::select(['mrname', 'itemno', 'date1', 'arrivel', 'comment'])
+        $vouchers = Invoice::select(['id', 'mrname', 'itemno', 'date1', 'arrivel', 'comment','isDelete'])
             ->where('ie', 'payvoucher');
 
 

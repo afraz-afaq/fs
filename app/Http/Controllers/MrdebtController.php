@@ -15,6 +15,13 @@ class MrdebtController extends Controller
      *     summary="Returns the mrdebt customer accounts list",
      *     description="Return the list of customers from mrdebt table.",
      *     operationId="index",
+     *  @OA\Parameter(
+     *     name="mrname",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
      *     @OA\Parameter(
      *     name="type",
      *     in="query",
@@ -56,18 +63,21 @@ class MrdebtController extends Controller
      */
 
 
-    public function index(){
+    public function index()
+    {
 
-        $debts_list = Mrdebt::select(['mrname','mrdebt','mrtype','governer','city']);
+        $debts_list = Mrdebt::select(['mrname', 'mrdebt', 'mrtype', 'governer', 'city']);
 
-        if(isset($_GET['type']))
-            $debts_list = $debts_list->where('mrtype',$_GET['type']);
-        if(isset($_GET['address']))
-            $debts_list = $debts_list->where('governer',$_GET['address']);
-        if(isset($_GET['order_by']) && isset($_GET['sort_by'])){
-            $debts_list = $debts_list->orderBy($_GET['order_by'],$_GET['sort_by']);
-        }else if(isset($_GET['order_by'])){
-            $debts_list = $debts_list->orderBy($_GET['order_by'],'asc');
+        if (isset($_GET['mrname']))
+            $debts_list = $debts_list->where('mrname', $_GET['mrname']);
+        if (isset($_GET['type']))
+            $debts_list = $debts_list->where('mrtype', $_GET['type']);
+        if (isset($_GET['address']))
+            $debts_list = $debts_list->where('governer', $_GET['address']);
+        if (isset($_GET['order_by']) && isset($_GET['sort_by'])) {
+            $debts_list = $debts_list->orderBy($_GET['order_by'], $_GET['sort_by']);
+        } else if (isset($_GET['order_by'])) {
+            $debts_list = $debts_list->orderBy($_GET['order_by'], 'asc');
         }
 
         return response()->json([
