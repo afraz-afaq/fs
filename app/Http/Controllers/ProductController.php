@@ -72,6 +72,9 @@ class ProductController extends Controller
 
         if (isset($_GET['pclass']))
             $product_list = $product_list->where('pclass', $_GET['pclass']);
+        if (isset($_GET['searchbox']))
+            $product_list = $product_list->where('pname', 'like' ,'%'.$_GET['searchbox'].'%')
+                                ->orWhere('pbarcode', 'like' ,'%'.$_GET['searchbox'].'%');
         if (isset($_GET['pname']))
             $product_list = $product_list->where('pname', $_GET['pname']);
         if (isset($_GET['manufacturer']))

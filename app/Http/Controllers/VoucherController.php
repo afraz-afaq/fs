@@ -70,9 +70,16 @@ class VoucherController extends Controller
         $vouchers = Invoice::select(['id', 'mrname', 'itemno', 'date1', 'arrivel', 'comment','isDelete'])
             ->where('ie', 'voucher');
 
+            $mrname = "";
+            if (isset($_GET['usertype'])) {
+                if (isset($_GET['usertype']) == "customer")
+                    $mrname = $_GET['company_name'];
+                else
+                    $mrname = $_GET['customer_name'];
+            }
 
-        if (isset($_GET['mrname']))
-            $vouchers = $vouchers->where('mrname', $_GET['mrname']);
+        if ($mrname && $mrname != "")
+            $vouchers = $vouchers->where('mrname', $mrname);
         if (isset($_GET['date1']))
             $vouchers = $vouchers->where('date1', $_GET['date1']);
         if (isset($_GET['itemno']))
@@ -198,10 +205,16 @@ class VoucherController extends Controller
 
         $vouchers = Invoice::select(['id', 'mrname', 'itemno', 'date1', 'total', 'comment','isDelete'])
             ->where('ie', 'payvoucher');
+            $mrname = "";
+            if (isset($_GET['usertype'])) {
+                if (isset($_GET['usertype']) == "customer")
+                    $mrname = $_GET['company_name'];
+                else
+                    $mrname = $_GET['customer_name'];
+            }
 
-
-        if (isset($_GET['mrname']))
-            $vouchers = $vouchers->where('mrname', $_GET['mrname']);
+        if ($mrname && $mrname != "")
+            $vouchers = $vouchers->where('mrname', $mrname);
         if (isset($_GET['date1']))
             $vouchers = $vouchers->where('date1', $_GET['date1']);
         if (isset($_GET['itemno']))

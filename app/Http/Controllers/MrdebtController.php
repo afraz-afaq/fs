@@ -68,8 +68,17 @@ class MrdebtController extends Controller
 
         $debts_list = Mrdebt::select(['mrname', 'mrdebt', 'mrtype', 'governer', 'city']);
 
-        if (isset($_GET['mrname']))
-            $debts_list = $debts_list->where('mrname', $_GET['mrname']);
+        $mrname = "";
+        if (isset($_GET['usertype'])) {
+            if (isset($_GET['usertype']) == "customer")
+                $mrname = $_GET['company_name'];
+            else
+                $mrname = $_GET['customer_name'];
+        }
+
+
+        if ($mrname && $mrname != "")
+            $debts_list = $debts_list->where('mrname', $mrname);
         if (isset($_GET['type']))
             $debts_list = $debts_list->where('mrtype', $_GET['type']);
         if (isset($_GET['address']))

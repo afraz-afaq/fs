@@ -74,10 +74,22 @@ class InvoiceController extends Controller
         where ie = '$ie'
         GROUP BY  itemno, mrname, date1, ie2, isdelete HAVING (ie2 IS NULL) OR (ie2 = N'') OR (ie2 = N'voucher')) AS derivedtbl_1";
 
-        if (isset($_GET['customer_name']) && isset($_GET['date']))
-            $query .= " where mrname = '" . $_GET['customer_name'] . "' And date1 = '" . $_GET['date'] . "'";
-        else if (isset($_GET['customer_name']))
-            $query .= " where mrname = '" . $_GET['customer_name'] . "'";
+        $mrname = "";
+        if (isset($_GET['usertype'])) {
+            if (isset($_GET['usertype']) == "customer")
+                $mrname = $_GET['company_name'];
+            else
+                $mrname = $_GET['customer_name'];
+        }
+
+        if ($mrname && $mrname != "" && isset($_GET['date']))
+            $query .= " where mrname = '" . $mrname . "' And date1 = '" . $_GET['date'] . "'";
+        else if (isset($_GET['searchbox']) && isset($_GET['date']))
+            $query .= " where mrname like '%" . $_GET['searchbox'] . "%' And date1 = '" . $_GET['date'] . "'";
+        else if ($mrname && $mrname != "")
+            $query .= " where mrname = '" . $mrname . "'";
+        else if (isset($_GET['searchbox']))
+            $query .= " where mrname like '%" . $_GET['searchbox'] . "%'";
         else if (isset($_GET['date']))
             $query .= " where date1 = '" . $_GET['date'] . "'";
 
@@ -363,7 +375,7 @@ class InvoiceController extends Controller
 
 
 
-        /**
+    /**
      * @OA\Get(
      *     path="/invoice/get-itemno",
      *     tags={"Invoice Get Item No"},
@@ -517,15 +529,16 @@ class InvoiceController extends Controller
      * )
      */
 
-    public function saveInvoice(Request $request){
-        
+    public function saveInvoice(Request $request)
+    {
+
         $data = $request->all();
-        $ie = $data ['ie'];
-        $ie2 = isset($data ['ie2']) ? $data ['ie2'] : '';
-        $date = $data ['date'];
+        $ie = $data['ie'];
+        $ie2 = isset($data['ie2']) ? $data['ie2'] : '';
+        $date = $data['date'];
         $mrname = $data['mrname'];
-        $username = $data ['username'];
-        $itemno = $data ['itemno'];
+        $username = $data['username'];
+        $itemno = $data['itemno'];
 
         $flag = DB::insert("INSERT INTO dbo.ie (ie,ie2,itemno,mrname,date1,username) VALUES (?, ?, ?, ?, ?, ?)", [$ie, $ie2, $itemno, $mrname, $date, $username]);
         return response()->json([
@@ -631,8 +644,9 @@ class InvoiceController extends Controller
      */
 
 
-    public function saveInvoiceProduct(Request $request){
-        
+    public function saveInvoiceProduct(Request $request)
+    {
+
         $data = $request->all();
 
         $ie = $data['ie'];
@@ -646,14 +660,14 @@ class InvoiceController extends Controller
         $carton = isset($data['carton']) ? $data['carton'] : null;
 
 
-        $flag = DB::insert("INSERT INTO dbo.ie (ie, itemno, mrname, date1, pname, carton, pprice, bonis, username)  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-        [$ie, $itemno, $mrname, $date, $pname, $carton, $pprice, $bonis, $username]);
+        $flag = DB::insert(
+            "INSERT INTO dbo.ie (ie, itemno, mrname, date1, pname, carton, pprice, bonis, username)  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            [$ie, $itemno, $mrname, $date, $pname, $carton, $pprice, $bonis, $username]
+        );
         return response()->json([
             'status' => true,
             'statusCode' => 200,
             'data' => ['data' => ['flag' => $flag], 'message' => "Invoice Product Saved."]
         ], 200);
     }
-
-
 }
