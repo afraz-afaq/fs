@@ -67,19 +67,22 @@ class VoucherController extends Controller
     public function index()
     {
 
-        $vouchers = Invoice::select(['id', 'mrname', 'itemno', 'date1', 'arrivel', 'comment','isDelete'])
+        $vouchers = Invoice::select(['id', 'mrname', 'itemno', 'date1', 'arrivel', 'comment', 'isDelete'])
             ->where('ie', 'voucher');
 
-            $mrname = "";
-            if (isset($_GET['usertype'])) {
-                if (isset($_GET['usertype']) == "customer")
-                    $mrname = $_GET['company_name'];
-                else
-                    $mrname = $_GET['customer_name'];
-            }
 
-        if ($mrname && $mrname != "")
-            $vouchers = $vouchers->where('mrname', $mrname);
+        if (isset($_GET['usertype'])) {
+            if (isset($_GET['usertype']) == "customer")
+                $vouchers = $vouchers->where('mrname',  $_GET['company_name']);
+        }
+
+        if (isset($_GET['mrname']))
+            $vouchers = $vouchers->where('mrname', $_GET['mrname']);
+
+        if (isset($_GET['searchbox']))
+            $vouchers = $vouchers->where('mrname', 'like', "'%" . $_GET['searchbox'] . "%'");
+
+
         if (isset($_GET['date1']))
             $vouchers = $vouchers->where('date1', $_GET['date1']);
         if (isset($_GET['itemno']))
@@ -100,7 +103,7 @@ class VoucherController extends Controller
 
 
 
-        /**
+    /**
      * @OA\Get(
      *     path="/voucher/delete",
      *     tags={"Voucher or Payvoucher Delete"},
@@ -203,18 +206,20 @@ class VoucherController extends Controller
     public function pay()
     {
 
-        $vouchers = Invoice::select(['id', 'mrname', 'itemno', 'date1', 'total', 'comment','isDelete'])
+        $vouchers = Invoice::select(['id', 'mrname', 'itemno', 'date1', 'total', 'comment', 'isDelete'])
             ->where('ie', 'payvoucher');
-            $mrname = "";
-            if (isset($_GET['usertype'])) {
-                if (isset($_GET['usertype']) == "customer")
-                    $mrname = $_GET['company_name'];
-                else
-                    $mrname = $_GET['customer_name'];
-            }
 
-        if ($mrname && $mrname != "")
-            $vouchers = $vouchers->where('mrname', $mrname);
+        if (isset($_GET['usertype'])) {
+            if (isset($_GET['usertype']) == "customer")
+                $vouchers = $vouchers->where('mrname',  $_GET['company_name']);
+        }
+
+        if (isset($_GET['mrname']))
+            $vouchers = $vouchers->where('mrname', $_GET['mrname']);
+
+        if (isset($_GET['searchbox']))
+            $vouchers = $vouchers->where('mrname', 'like', "'%" . $_GET['searchbox'] . "%'");
+
         if (isset($_GET['date1']))
             $vouchers = $vouchers->where('date1', $_GET['date1']);
         if (isset($_GET['itemno']))

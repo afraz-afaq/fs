@@ -78,7 +78,7 @@ class WhouseController extends Controller
             $whouse_list = $whouse_list->where('pclass', $_GET['pclass']);
         if (isset($_GET['searchbox']))
             $whouse_list = $whouse_list->where('pname', 'like', '%' . $_GET['searchbox'] . '%')
-                ->orWhere('pbarcode', 'like', '%' . $_GET['searchbox'] . '%');
+                ->orWhere('pbarcode', $_GET['searchbox']);
         if (isset($_GET['pname']))
             $whouse_list = $whouse_list->where('pname', $_GET['pname']);
         if (isset($_GET['manufacturer']))
