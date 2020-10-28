@@ -43,6 +43,13 @@ class WhouseController extends Controller
      *       type="string"
      *     ),
      * ),
+     * @OA\Parameter(
+     *     name="searchbox",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
      *  @OA\Parameter(
      *     name="order_by",
      *     in="query",

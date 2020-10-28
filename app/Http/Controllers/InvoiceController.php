@@ -14,7 +14,7 @@ class InvoiceController extends Controller
      *     path="/invoice",
      *     tags={"Invoice Table List"},
      *     summary="Returns the invoices",
-     *     description="Return the list of Invoices.",
+     *     description="Return the list of Invoices. Sort Order: itemno, mrname, date1, total. Sort Type: asc, desc",
      *     operationId="index",
      *   @OA\Parameter(
      *     name="ie",
@@ -32,6 +32,27 @@ class InvoiceController extends Controller
      * ),
      *    @OA\Parameter(
      *     name="date",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     * @OA\Parameter(
+     *     name="usertype",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     *  @OA\Parameter(
+     *     name="company_name",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     *  @OA\Parameter(
+     *     name="searchbox",
      *     in="query",
      *     @OA\Schema(
      *       type="string"

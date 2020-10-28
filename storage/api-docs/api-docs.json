@@ -78,7 +78,7 @@
                     "Invoice Table List"
                 ],
                 "summary": "Returns the invoices",
-                "description": "Return the list of Invoices.",
+                "description": "Return the list of Invoices. Sort Order: itemno, mrname, date1, total. Sort Type: asc, desc",
                 "operationId": "index",
                 "parameters": [
                     {
@@ -97,6 +97,27 @@
                     },
                     {
                         "name": "date",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "usertype",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "company_name",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "searchbox",
                         "in": "query",
                         "schema": {
                             "type": "string"
@@ -553,6 +574,27 @@
                         }
                     },
                     {
+                        "name": "usertype",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "company_name",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "searchbox",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "name": "order_by",
                         "in": "query",
                         "schema": {
@@ -692,6 +734,13 @@
                     },
                     {
                         "name": "manufacturer",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "searchbox",
                         "in": "query",
                         "schema": {
                             "type": "string"
@@ -1453,6 +1502,27 @@
                         }
                     },
                     {
+                        "name": "usertype",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "company_name",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "searchbox",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "name": "itemno",
                         "in": "query",
                         "schema": {
@@ -1574,6 +1644,27 @@
                         }
                     },
                     {
+                        "name": "usertype",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "company_name",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "searchbox",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "name": "itemno",
                         "in": "query",
                         "schema": {
@@ -1641,6 +1732,13 @@
                     },
                     {
                         "name": "scientificn",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "searchbox",
                         "in": "query",
                         "schema": {
                             "type": "string"

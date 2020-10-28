@@ -45,6 +45,27 @@ class VoucherController extends Controller
      *       type="string"
      *     ),
      * ),
+     *   @OA\Parameter(
+     *     name="usertype",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     *  @OA\Parameter(
+     *     name="company_name",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     *  @OA\Parameter(
+     *     name="searchbox",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
      *  @OA\Parameter(
      *     name="itemno",
      *     in="query",
@@ -179,6 +200,27 @@ class VoucherController extends Controller
      * ),
      *     @OA\Parameter(
      *     name="sort_by",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     *   @OA\Parameter(
+     *     name="usertype",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     *  @OA\Parameter(
+     *     name="company_name",
+     *     in="query",
+     *     @OA\Schema(
+     *       type="string"
+     *     ),
+     * ),
+     *  @OA\Parameter(
+     *     name="searchbox",
      *     in="query",
      *     @OA\Schema(
      *       type="string"
