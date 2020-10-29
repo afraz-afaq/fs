@@ -99,11 +99,11 @@ class InvoiceController extends Controller
         if (isset($_GET['usertype'])) {
             if (isset($_GET['usertype']) == "customer")
                 $mrname = $_GET['company_name'];
-            else
-                $mrname = $_GET['customer_name'];
         }
+        else
+            $mrname = $_GET['customer_name'];
 
-        if (isset($_GET['customer_name']) && isset($_GET['date']))
+        if ($mrname && $mrname != "" && isset($_GET['date']))
             $query .= " where mrname = '" . $mrname . "' And date1 = '" . $_GET['date'] . "'";
         else if (isset($_GET['searchbox']) && isset($_GET['date']))
             $query .= " where mrname like '%" . $_GET['searchbox'] . "%' And date1 = '" . $_GET['date'] . "'";
