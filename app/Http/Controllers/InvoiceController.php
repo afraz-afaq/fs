@@ -101,7 +101,7 @@ class InvoiceController extends Controller
                 $mrname = $_GET['company_name'];
         }
         else
-            $mrname = $_GET['customer_name'];
+            $mrname = isset($_GET['customer_name']) ? $_GET['customer_name']: "";
 
         if ($mrname && $mrname != "" && isset($_GET['date']))
             $query .= " where mrname = '" . $mrname . "' And date1 = '" . $_GET['date'] . "'";
